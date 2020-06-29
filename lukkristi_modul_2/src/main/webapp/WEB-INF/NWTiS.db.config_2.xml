@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>NWTIS konfiguracija</comment>
+<entry key="server.database">jdbc:derby://localhost:1527/</entry>
+<entry key="admin.username">nwtis_g1</entry>
+<entry key="admin.password">g1_nwtis</entry>
+<entry key="admin.database">nwtis_g1</entry>
+<entry key="user.username">nwtis_g1</entry>
+<entry key="user.password">g1_nwtis</entry>
+<entry key="user.database">nwtis_g1</entry>
+<entry key="jdbc.mysql">com.mysql.jdbc.Driver</entry>
+<entry key="jdbc.derby">org.apache.derby.jdbc.ClientDriver</entry>
+<entry key="LocationIQ.token">3240615a733a5e</entry>
+<entry key="OpenWeatherMap.apikey">64c5544ad6f22f479d08ea3358297bfc</entry>
+<entry key="OpenSkyNetwork.korisnik">lukkristi</entry>
+<entry key="OpenSkyNetwork.lozinka">Lukas555</entry>
+<entry key="preuzimanje.status">true</entry>
+<entry key="preuzimanje.ciklus">60</entry>
+<entry key="preuzimanje.pauza">5000</entry>
+<entry key="preuzimanje.pocetak">13.02.2020</entry>
+<entry key="preuzimanje.kraj">30.04.2020</entry>
+</properties>
