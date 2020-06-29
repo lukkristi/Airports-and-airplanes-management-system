@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26.04.2020, 17:55:17
+    Author     : lukkristi
+*/
+.authorTable{   
+    border-collapse:collapse;
+    border-bottom:1px solid #000000;
+    border-left:1px solid #000000;
+    border-right:1px solid #000000;
+}
+
+.authorTableHeader{
+    text-align:center;
+    background:none repeat scroll 0 0 #B5B5B5;
+    border-bottom:1px solid #000000;
+    border-top:1px solid #000000;
+    padding:2px;
+}
+
+.authorTableOddRow{
+    text-align:center;
+    background:none repeat scroll 0 0 #FFFFFF;	
+}
+
+.authorTableEvenRow{
+    text-align:center;
+    background:none repeat scroll 0 0 #D3D3D3;
+}
+.porukaPogreske {
+    color: red;
+}
+
+.nazivSadrzaja{
+    display: block;
+    font-size: large;
+}
+.praznaLinija{
+    display: block;
+}

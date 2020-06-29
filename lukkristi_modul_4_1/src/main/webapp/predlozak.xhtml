@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view locale="#{lokalizacija.jezik}">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet library="css" name="default.css"/>
+            <h:outputStylesheet  library="css" name="cssLayout.css"/>
+            <h:outputStylesheet library="css" name="dizajn.css"/>           
+            <title><ui:insert name="prijava">#{p['prijava.naslov']}</ui:insert></title>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT8AIs_B7WUgSCHAyT_LVEZWvKdZaZaGg" type="text/javascript"></script>
+            <style>
+                #map{
+                    height: 500px;
+                    width: 50%;
+                }
+            </style>
+
+        </h:head>
+
+        <h:body>
+
+            <div id="top">
+                <h:form>
+                    <h:selectOneRadio value="#{lokalizacija.jezik}">
+                        <f:selectItem itemLabel="#{p['predlozak.hrvatski']}" itemValue="hr"/> &nbsp; &nbsp;
+                        <f:selectItem itemLabel="#{p['predlozak.engleski']}" itemValue="en"/> &nbsp; &nbsp;                        
+                    </h:selectOneRadio>
+                    <h:commandButton value="#{p['predlozak.odaberiJezik']}" action="#{lokalizacija.odaberiJezik}"/>
+                </h:form>
+            </div>
+            <div>
+                <div id="left">
+                    <h:form>
+                        <h:commandLink action="prijavaPocetak" value="#{p['prijava.naslov']}"/>
+                        <h:outputText value="&nbsp;" styleClass="praznaLinija"/> 
+                        <h:commandLink action="pogled3" value="#{p['pogled3.naslov']}"/>
+                        <h:outputText value="&nbsp;" styleClass="praznaLinija"/> 
+                        <h:commandLink action="pogled4" value="#{p['pogled4.naslov']}"/>
+                        <h:outputText value="&nbsp;" styleClass="praznaLinija"/> 
+                        <h:commandLink action="pogled5" value="#{p['pogled5.naslov']}"/>
+
+                        <p:commandButton  action="#{odjava.unistiSesiju()}" value="#{p['predlozak.odjava']}">                 
+                        </p:commandButton>           
+                    </h:form>
+                </div>
+                <div id="content" class="left_content">
+                    <ui:insert name="content">Content</ui:insert>
+                    <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                    <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                    <h:outputText value="&nbsp;" styleClass="praznaLinija"/>
+                </div>
+            </div>
+            <div id="bottom">
+                Lukas Krištić - NWTiS &copy; 2020.  
+            </div>
+
+        </h:body>
+    </f:view>
+</html>

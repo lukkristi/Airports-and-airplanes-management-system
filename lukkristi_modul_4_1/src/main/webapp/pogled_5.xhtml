@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <body>
+
+        <ui:composition template="./predlozak.xhtml">
+
+            <ui:define name="prijava">
+                #{p['pogled5.naslov']}
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <p:messages id="mensajes" showDetail="false" autoUpdate="true"/>
+                    <p:commandButton update="@form"  value="#{p['pogled.prikaziAerodrome']}" action="#{pogled_5.dohavtiAeridrime()}">                
+                        <f:ajax execute="@this" render="@form korisnik"/>
+                    </p:commandButton><br/>
+                    <h:panelGrid  id="Panela2">
+                    <h:outputLabel>#{p['pogled5.KmOd']}</h:outputLabel>&nbsp;
+                    <p:inputText  id="odDatum" value="#{pogled_5.odKm}" >
+                        <f:ajax event="change"  listener="#{pogled_5.localeChanged}" render="@form Aerodromi"/>
+                    </p:inputText>&nbsp;           
+                    <h:outputLabel>#{p['pogled5.KmDo']}</h:outputLabel>&nbsp;
+                    <p:inputText  id="doDatum" value="#{pogled_5.doKm}" >
+                        <f:ajax event="change" listener="#{pogled_5.localeChanged2}" render="@form Aerodromi"/>
+                    </p:inputText>&nbsp; <br/>
+                    <h:selectOneListbox id="korisnik" size="10" value="#{pogled_5.icao1}">               
+                        <f:selectItem itemLabel="#{p['pogled3.odabirAerodroma']}" itemValue="#{pogled_5.icao1}" itemDisabled="true" />                        
+                        <f:selectItems value="#{pogled_5.aerodromiKorisnika1}" var="aer"  itemLabel="#{aer.ident} #{aer.name}" 
+                                       itemValue="#{aer.ident}"/>
+                    </h:selectOneListbox>
+                    <h:selectOneListbox id="aerodromi2" size="10" value="#{pogled_5.icao2}">               
+                        <f:selectItem itemLabel="#{p['pogled3.odabirAerodroma']}" itemValue="#{pogled_5.icao2}" itemDisabled="true" />                        
+                        <f:selectItems value="#{pogled_5.aerodromiKorisnika1}" var="aer"  itemLabel="#{aer.ident} #{aer.name}" 
+                                       itemValue="#{aer.ident}"/>
+                    </h:selectOneListbox><br/>
+                    <p:commandButton update="@form"  value="#{p['pogled5.obrisiAeridrom']}" action="#{pogled_5.obrisiMojAerodrom()}">                
+                        <f:ajax execute="@this" render="@form Aerodromi"/>
+                    </p:commandButton>
+                    <p:commandButton update="@form"  value="#{p['pogled5.obrisiAvioneAerodroma']}" action="#{pogled_5.obrisiAvioneAerodroma()}">                
+                        <f:ajax execute="@this" render="@form Aerodromi"/>
+                    </p:commandButton>
+                    <p:commandButton update="@form"  value="#{p['pogled5.dohvatiAerodromeGranica']}" action="#{pogled_5.vratiAerodromeURasponu()}">                
+                        <f:ajax execute="@this" render="@form Aerodromi"/>
+                    </p:commandButton>
+                    <p:commandButton update="@form"  value="#{p['pogled5.izmjeriUdaljenost']}" action="#{pogled_5.izmjeriUdaljenost()}">                
+                        <f:ajax execute="@this" render="@form kadar"/>
+                    </p:commandButton><br/>
+                    <h:outputLabel id="kadar">#{p['pogled5.udaljenost']}: #{pogled_5.udaljenost}</h:outputLabel>&nbsp;
+                    </h:panelGrid>
+                    <h:panelGrid id="Panela1">
+                        <p:dataTable id="Aerodromi" value="#{pogled_5.aerodromiUIntervalu}" rendered="true" rows="10" var="avioni"  paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,50">
+                            <p:column>
+                                <f:facet name="header">#{p['pogled5.ident']}</f:facet>#{avioni.ident}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled3.naziv']}</f:facet>#{avioni.name}                                                                                          
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled5.isoCountry']}</f:facet>#{avioni.isoCountry}                               
+                            </p:column>                            
+                        </p:dataTable><br/>
+                    </h:panelGrid>                                     
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

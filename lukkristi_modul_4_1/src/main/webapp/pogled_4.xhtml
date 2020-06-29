@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition template="./predlozak.xhtml">
+
+            <ui:define name="prijava">
+                #{p['pogled4.naslov']}
+            </ui:define>
+
+            <ui:define name="content">
+                
+                    
+                <h:form>
+                    <p:messages id="mensajes" showDetail="false" autoUpdate="true"/>
+                    <p:commandButton update="@form"  value="#{p['pogled.prikaziAerodrome']}" action="#{pogled_4.dohvatiAerodromeKorisnika()}">                
+                        <f:ajax execute="@this" render="@form korisnik"/>
+                    </p:commandButton><br/>
+                    <h:panelGrid  id="Panela2">
+                    <h:outputLabel>#{p['pogled4.datumOd']}</h:outputLabel>&nbsp;
+                    <p:inputText  id="odDatum" value="#{pogled_4.odDatum}" >
+                        <f:ajax event="change"  listener="#{pogled_4.localeChanged}" render="@form Aerodromi"/>
+                    </p:inputText>&nbsp;           
+                    <h:outputLabel>#{p['pogled4.datumDo']}</h:outputLabel>&nbsp;
+                    <p:inputText  id="doDatum" value="#{pogled_4.doDatum}" >
+                        <f:ajax event="change" listener="#{pogled_4.localeChanged2}" render="@form Aerodromi"/>
+                    </p:inputText>&nbsp; <br/>
+                    <h:selectOneListbox id="korisnik" size="10" value="#{pogled_4.icaoOdabrani}">               
+                        <f:selectItem itemLabel="#{p['pogled3.odabirAerodroma']}" itemValue="#{prikazKorisnika.odabraniKorisnik}" itemDisabled="true" />
+                        <f:selectItems value="#{pogled_4.aerodromiKorisnika}" var="aer"  itemLabel="#{aer.ident} #{aer.name}" 
+                                       itemValue="#{aer.ident}"/>
+                    </h:selectOneListbox><br/>
+                    <p:commandButton update="@form"  value="#{p['pogled.prikaziAvioneAerodroma']}" action="#{pogled_4.dajAvioneAerodroma()}">                
+                        <f:ajax execute="@this" render="@form Aerodromi"/>
+                    </p:commandButton><br/>
+                    </h:panelGrid>
+                    <h:panelGrid id="Panela1">
+                        <p:dataTable id="Aerodromi" value="#{pogled_4.avioniAerodroma}" rendered="true" rows="10" var="avioni"  paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,50">
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.icao24']}</f:facet>#{avioni.icao24}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.polijetanje']}</f:facet>
+                                <h:outputText value="#{avioni.firstSeen*1000}">
+                                    <f:convertDateTime timeZone="CET" pattern="dd.MM.yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.slijetanje']}</f:facet>
+                                <h:outputText value="#{avioni.lastSeen*1000}">
+                                    <f:convertDateTime timeZone="CET" pattern="dd.MM.yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.aerodromSlijetanja']}</f:facet>#{avioni.estArrivalAirport}
+                            </p:column>
+                            <p:column>
+                                <h:commandButton  value="#{p['pogled4.prikaziLetove']}"  actionListener="#{pogled_4.dajLetoveAviona(avioni.icao24)}">
+                                    <f:ajax execute="@this" render="@form Datumi"/>
+                                </h:commandButton>
+                            </p:column>
+                        </p:dataTable><br/>
+                    </h:panelGrid>
+                    <h:panelGrid id="LUKAS">
+                        <p:dataTable id="Datumi" value="#{pogled_4.letoviAviona}" rendered="true" rows="10" var="av"  paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,50">
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.icao24']}</f:facet>#{av.icao24}
+                            </p:column>                          
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.polijetanje']}</f:facet>
+                                <h:outputText value="#{av.firstSeen*1000}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                </h:outputText>                        
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.slijetanje']}</f:facet>
+                                <h:outputText value="#{av.lastSeen*1000}">
+                                    <f:convertDateTime timeZone="CET" pattern="dd.MM.yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled4.aerodromSlijetanja']}</f:facet>#{av.estArrivalAirport}
+                            </p:column> 
+                        </p:dataTable>
+                    </h:panelGrid><br/>
+                    
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

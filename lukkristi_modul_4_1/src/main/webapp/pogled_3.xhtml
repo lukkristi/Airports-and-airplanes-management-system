@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition template="./predlozak.xhtml">
+
+            <ui:define name="prijava">
+                #{p['pogled3.naslov']}
+            </ui:define>
+
+            <ui:define name="content">               
+                <h:form id="mojiAerodromi">                             
+                        <p:commandButton update="mojiAerodromi"  action="#{pogled_3.dohvatiAerodromeKorisnika()}" value="#{p['pogled3.dajAerodrome']}">
+                            <f:ajax execute="Aerodromi" render="Aerodromi Panela1"/>
+                        </p:commandButton>                   
+                    <h:panelGrid id="Panela1">
+                        <p:dataTable id="Aerodromi" value="#{pogled_3.aerodromiKorisnika}" rendered="true" rows="10" var="a"  paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,50"
+                                     selectionMode="single"
+                                     selection="#{pogled_3.aerodromOdabrani}"
+                                     rowKey="#{a.ident.ident}"
+                                     widgetVar="myTable">
+                            <p:ajax event="rowSelect" listener="#{pogled_3.onRowSelect}" oncomplete="initMap(args.longitude,args.latitude,args.meteoPodaci)"></p:ajax>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled3.ident']}</f:facet>#{a.ident.ident}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled3.brkorisnika']}</f:facet>#{a.ident.myairportsList.size()}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled3.brdohvacanja']}</f:facet>#{a.ident.myairportslogList.size()}
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">#{p['pogled3.brletova']}</f:facet>#{a.ident.airplanesList.size()}
+                            </p:column>                                
+                        </p:dataTable><br/>
+                    </h:panelGrid>                   
+                   
+                </h:form>
+                <div id="map"></div>
+                <br/><br/>
+                <h:form>
+                    <h:outputLabel>#{p['pogled3.naziv']}</h:outputLabel>&nbsp;
+                    <p:inputText id="naziv" value="#{pogled_3.naziv}" >
+                    </p:inputText>&nbsp;                    
+                    <h:outputLabel>#{p['pogled3.drzava']}</h:outputLabel>&nbsp;
+                    <h:inputText value="#{pogled_3.drzava}">                
+                    </h:inputText>&nbsp;
+                    <p:commandButton update="@form"   value="#{p['pogled3.pretraga']}" action="#{pogled_3.dajAerodromeDrzavaNaziv()}">                
+                        <f:ajax  execute="@this" render="@form :korisnik"/>
+                    </p:commandButton> <br/>
+                    <h:selectOneListbox id="korisnik" size="10" value="#{pogled_3.aerodromOdabrani}">               
+                        <f:selectItem itemLabel="#{p['pogled3.odabirAerodroma']}" itemValue="#{pogled_3.aerodromOdabrani}" itemDisabled="true" />
+                        <f:selectItems value="#{pogled_3.aerodromi}" var="aer"  itemLabel="#{aer.name} #{aer.ident} (#{aer.isoCountry})" 
+                                       itemValue="#{aer.ident}"/>
+                    </h:selectOneListbox><br/>
+                </h:form>
+                <div id="map"></div>
+            <script>
+                function initMap(latitude, longitude, meteoPodaci) {
+                var x = latitude;
+                var y = longitude;
+                var options;
+                if (x !== undefined &amp;&amp; y !== undefined) {
+                options = {
+                zoom: 15,
+                        center: {lat: parseFloat(y), lng: parseFloat(x)}
+                }
+
+                } else {
+                options = {
+                zoom: 8,
+                        center: {lat: 50.0529322, lng: 8.5699146}
+                }
+                }
+                console.log(options);
+                var map = new google.maps.Map(document.getElementById("map"), options);
+                var marker = new google.maps.Marker({
+                position: {lat: parseFloat(y), lng: parseFloat(x)},
+                        map: map,
+                        animation: google.maps.Animation.BOUNCE
+                })
+                        var temeperatura = meteoPodaci["temperatureValue"];
+                var tlak = meteoPodaci["pressureValue"];
+                var vlaga = meteoPodaci["humidityValue"];
+                var infoWindow = new google.maps.InfoWindow({
+                content: "Temp: " + temeperatura.toString() + ", Tlak: " + tlak.toString() + ", Vlaga: " + vlaga.toString()
+                });
+                marker.addListener('click', function(){
+                infoWindow.open(map, marker);
+                });
+                }
+
+            </script>
+
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDoEyfQ33sTEpg5elSr1Me8Fq9uOyuDwA&amp;callback=initMap"
+            async="defer"></script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
