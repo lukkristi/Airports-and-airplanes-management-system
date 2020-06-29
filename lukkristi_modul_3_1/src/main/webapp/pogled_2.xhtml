@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{komandeZaPosluzitelj.autentificiraj()}"/>
+        </f:metadata>
+        <h:head>
+            <title>Facelet Title</title>
+        </h:head>
+        <h:body>
+            <h:link value="pogled 1 " outcome="pogled_1.xhtml"/><br/>
+            <h:link value="pogled 4 " outcome="pogled_4.xhtml"/>
+            <h:form id="logout">           
+                <p:commandButton  action="#{odjava.unistiSesiju()}" value="ODJAVA">                   
+                </p:commandButton>
+            </h:form>
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel value="Komanda: #{komandeZaPosluzitelj.komanda}" /><br/><br/>
+
+                    <p:commandButton value="PAUZA" action="#{komandeZaPosluzitelj.saljiKomanduPauza()}"/><br/>
+                    <p:commandButton value="RADI" action="#{komandeZaPosluzitelj.saljiKomanduRadi()}"/><br/>
+                    <p:commandButton value="KRAJ" action="#{komandeZaPosluzitelj.saljiKomanduKraj()}" styleClass="selected-button-background-color"/><br/>
+                    <p:commandButton value="STANJE" action="#{komandeZaPosluzitelj.saljiKomanduStanje()}"/><br/>
+                    <p:commandButton value="GRUPA PRIJAVI" action="#{komandeZaPosluzitelj.saljiKomanduGrupaPrijavi()}"/><br/><br/>
+                    <p:commandButton value="GRUPA ODJAVI" action="#{komandeZaPosluzitelj.saljiKomanduOdjaviGrupu()}"/><br/>
+                    <p:commandButton value="GRUPA AKTIVIRAJ" action="#{komandeZaPosluzitelj.saljiKomanduGrupaAkriviraj()}"/><br/><br/>
+                    <p:commandButton value="GRUPA BLOKIRAJ" action="#{komandeZaPosluzitelj.saljiKomanduBlokirajGrupu()}"/><br/><br/>
+                    <p:commandButton value="GRUPA STANJE" action="#{komandeZaPosluzitelj.saljiKomanduStanjeGrupe()}"/><br/><br/>
+                    <p:commandButton value="GRUPA AERODROMI" action="#{komandeZaPosluzitelj.saljiKomanduGrupaAerodrom()}"/><br/><br/>
+                    <h:outputLabel value="Odgovor:  #{komandeZaPosluzitelj.odgovor}" /><br/>
+                </h:panelGrid>
+                <p:messages id="mensajes" showDetail="false" autoUpdate="true" />
+            </h:form>
+        </h:body>
+
+    </f:view>
+</html>
+

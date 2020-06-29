@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="logout">           
+            <p:commandButton update="@([id$=loginForm])"  action="#{odjava.unistiSesiju()}" value="ODJAVA">
+                <f:ajax execute="@([id$=loginForm])" render="@([id$=Aerodromi])"/>
+            </p:commandButton>
+        </h:form>
+        <h:link value="DNEVNIK" outcome="pogled_4.xhtml"/><br/>
+        <h:link value="KOMANDE " outcome="pogled_2.xhtml"/>
+        <h2>Prijava korisnika</h2>
+        <h:form id="loginForm">
+
+
+            <h:panelGrid id="loginPanel" columns="2">
+
+                <h:outputText value="Korisnicko ime" />
+
+                <p:inputText id="Korisnickoime" value="#{prijavaKorisnika.korisnik}" ></p:inputText>
+
+                <p:spacer></p:spacer> <br></br>
+
+                <h:outputText value="Lozinka" />
+
+                <p:password id="lozinka1" value="#{prijavaKorisnika.lozinka}"  feedback="false"></p:password>
+
+                <p:spacer></p:spacer>
+
+                <p:commandButton update="loginForm" action="#{prijavaKorisnika.prijaviKorisnika()}" value="Login">
+                <f:ajax execute="korisnik" render="Aerodromi Panela1"/>
+                </p:commandButton>
+                <br/>
+                <p:messages id="mensajes" showDetail="false" autoUpdate="true"/>
+
+            </h:panelGrid>
+            <h:panelGrid id="Panela1">
+                <p:dataTable id="Aerodromi" value="#{prijavaKorisnika.korisnici}" rendered="#{prijavaKorisnika.prijavljen}" rows="10" var="k"  paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,50">
+                    <p:column>
+                        <f:facet name="header">Ime</f:facet>#{k.ime}
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Korisnicko Ime</f:facet>#{k.korIme}
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Email</f:facet>#{k.email}
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">lozinka</f:facet>#{k.lozinka}
+                    </p:column>                   
+                </p:dataTable><br/>
+            </h:panelGrid>
+        </h:form>
+        
+        <h2>Registracija korisnika</h2>
+        <h:form id="RegisterForm">
+
+
+            <h:panelGrid id="loginPanel2" columns="2">
+
+                <h:outputText value="Ime" />
+
+                <p:inputText id="ime" value="#{registracijaKorisnika.ime}"  required="true"></p:inputText>
+
+                <p:spacer></p:spacer>
+                <br></br>
+                
+                <h:outputText value="email" />
+
+                <p:inputText id="email" value="#{registracijaKorisnika.email}" required="true"></p:inputText>
+
+                <p:spacer></p:spacer><br></br>
+                
+                 <h:outputText value="Korisnicko ime" />
+
+                <p:inputText id="Korisnickoime" value="#{registracijaKorisnika.korisnik}" required="true"></p:inputText>
+
+                <p:spacer></p:spacer><br></br>
+
+                <h:outputText value="Lozinka" />
+
+                <p:password id="lozinka" value="#{registracijaKorisnika.lozinka}"  feedback="false" required="true"></p:password>
+
+                <p:spacer></p:spacer>
+
+                <p:commandButton action="#{registracijaKorisnika.saljiKomanduRegistrirajKorisnika()}" value="Registriraj"></p:commandButton>
+                <h:outputLabel value="Odgovor:  #{registracijaKorisnika.odgovor}" /><br/>
+
+            </h:panelGrid>
+            
+        </h:form>
+    </h:body>
+</html>
+
